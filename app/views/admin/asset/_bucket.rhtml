@@ -1,0 +1,22 @@
+<div id="bucket-container">
+  <h4>Bucket&nbsp;<span class="note">Items placed here can be used in your pages, layouts and snippets.
+    </span><%= link_to_remote('Clear Bucket', {:url => clear_bucket_url}, :id => 'clear-bucket') %></h4>
+  <div id="bucket">
+  <% session[:bucket].each do |filename, values| -%>
+    <% info = values[1] 
+      domId = info[:id] -%>
+    <div id="asset_<%= info[:id] %>">
+      <a href="<%= url_for(*values) %>"><%= image_tag(*values) %></a>
+
+    </div>
+    <%#= draggable_element(domId, :ghosting => 'true', :revert => 'true') %>
+  <% end unless session[:bucket].blank? %>
+  </div>
+  <p style="clear:both;"></p>
+</div>
+
+<script type="text/javascript">
+// <![CDATA[
+  new Bucket('bucket');
+// ]]>
+</script>

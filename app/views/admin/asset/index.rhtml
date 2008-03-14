@@ -1,0 +1,24 @@
+<% include_stylesheet 'admin/assets' -%>
+
+<h1>Images<%= ': ' + @tag.titlecase if @tag -%></h1>
+
+<p><%= link_to image_tag('admin/new-asset.png', :alt => 'New Asset'), asset_new_url %></p>
+
+<p>
+  <label>Search</label>
+  <input type="text" id="search" name="search" />
+  <%= observe_field 'search',  :frequency => 1, 
+                               :update => 'assets_table', 
+                               :url =>  { :controller => 'admin/asset', :action=> 'index' },  
+                               :with => "'search=' + escape(value)" %>
+</p>
+
+<%= render :partial => 'bucket' %>
+
+<div id="assets_table">
+<%= render :partial => 'asset_table' %>
+</div>
+
+
+
+
