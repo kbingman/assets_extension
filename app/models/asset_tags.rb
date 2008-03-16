@@ -10,9 +10,8 @@ module AssetTags
     *Usage:* 
     <pre><code><r:asset [name="name"] >...</r:asset:each></code></pre>
   }    
-  tag 'assets' do |tag|
-    raise TagError, "'name' attribute required" unless name = tag.attr['name'] or tag.locals.asset
-    tag.locals.asset = Asset.find_by_filename(tag.attr['name'])
+  tag 'asset' do |tag|
+    tag.locals.asset = Asset.find_by_title(tag.attr['title'])
     tag.expand
   end
   
@@ -21,16 +20,16 @@ module AssetTags
     *Usage:* 
     <pre><code><r:image [asset_id="asset_id"] ></code></pre>
   }    
-  tag 'assets:image' do |tag|
+  tag 'asset:image' do |tag|
     options = tag.attr.dup
-    raise TagError, "'name' attribute required" unless name = options.delete('name') or tag.locals.asset
-    asset = tag.locals.asset || Asset.find_by_filename(tag.attr['name'])
+    raise TagError, "'title' attribute required" unless title = options.delete('title') or tag.locals.asset
+    asset = tag.locals.asset || Asset.find_by_title(tag.attr['title'])
     size = options.delete('size') || 'normal'
     # path = asset.image_url(size)
-    alt = "alt='#{asset.title}'" unless tag.attr['alt']
+    alt = "alt='#{asset.title}'" unless tag.attr['alt'] rescue nil
     attributes = options.inject('') { |s, (k, v)| s << %{#{k.downcase}="#{v}" } }.strip
     attributes << alt unless alt.nil?
-    %{<img src="#{asset.image_url(size)}" #{attributes unless attributes.empty?} />}
+    %{<img src="#{asset.image_url(size)}" #{attributes unless attributes.empty?} />} rescue nil
   end
   
   desc %{
@@ -38,24 +37,23 @@ module AssetTags
     *Usage:* 
     <pre><code><r:image [asset_id="asset_id"] ></code></pre>
   }    
-  tag 'assets:url' do |tag|
+  tag 'asset:url' do |tag|
     options = tag.attr.dup
-    raise TagError, "'name' attribute required" unless name = options.delete('name') or tag.locals.asset
-    asset = tag.locals.asset || Asset.find_by_filename(tag.attr['name'])
+    raise TagError, "'title' attribute required" unless title = options.delete('title') or tag.locals.asset
+    asset = tag.locals.asset || Asset.find_by_title(tag.attr['title'])
     size = options.delete('size') || 'normal'
-    asset.image_url(size)
+    asset.image_url(size)  rescue nil
   end
   
   [:filename, :title, :caption, :content_type, :size, :width, :height, :id].each do |key|
     desc %{
       Renders the `#{key}' attribute of the asset.     
-      The 'name' attribute is required on this tag or the parent tag.
+      The 'title' attribute is required on this tag or the parent tag.
     }
-    tag "assets:#{key}" do |tag|
-      options = tag.attr.dup
-      raise TagError, "'name' attribute required" unless name = options.delete('name') or tag.locals.asset
-      asset = tag.locals.asset || Asset.find_by_filename(tag.attr['name'])
-      asset.attributes["#{key}"]
+    tag "asset:#{key}" do |tag|
+      raise TagError, "'title' attribute required" unless title = tag.attr['title'] or tag.locals.asset
+      asset = tag.locals.asset || Asset.find_by_title(tag.attr['title'])
+      asset.attributes["#{key}"] rescue nil
     end
   end
   
