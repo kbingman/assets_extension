@@ -33,7 +33,7 @@ class ImageController < ApplicationController
         asset = Asset.find_by_id(params[:id])
         size = @config["assets.#{size_name}"]
         image = Magick::Image.from_blob(asset.image_data).first
-        image.change_geometry(size) { |cols, rows, img| img.crop_resized!(cols, rows)}
+        image.change_geometry(size) { |cols, rows, img| img.crop_resized!(cols, rows)} unless size.nil?
         send_data(image.to_blob() {self.quality = quality},
                   :filename => asset.filename,
                   :type => asset.content_type,

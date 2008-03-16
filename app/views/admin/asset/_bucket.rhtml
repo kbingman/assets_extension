@@ -7,7 +7,12 @@
       asset = Asset.find(info[:id]) -%>
     <div id="asset_<%= asset.id %>">
       <a href='<%= "/images/#{asset.id}/normal/#{asset.basename}.#{asset.extension}" %>'><%= image_tag(*values) %></a>
-      <p><%= asset.title  %></p>
+      <div class="image_info" style="display: none">
+        <p><%= asset.title  %></p>
+        <p><%= asset.image_url(:normal)  %></p>
+        <p><%= asset.image_url(:thumbnail)  %></p>
+        <p><%= link_to "edit", asset_edit_url(asset)  %></p>
+      </div>
     </div>
     <%#= draggable_element(domId, :ghosting => 'true', :revert => 'true') %>
   <% end unless session[:bucket].blank? %>
