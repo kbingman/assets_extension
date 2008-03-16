@@ -14,7 +14,7 @@ class ImageController < ApplicationController
     @cache = ResponseCache.instance
   end
   
-  def show_image
+  def show
     response.headers.delete('Cache-Control')
     url = request.request_uri.to_s
     if (request.get? || request.head?) and (@cache.response_cached?(url))

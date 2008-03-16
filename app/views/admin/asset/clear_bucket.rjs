@@ -1,2 +1,1 @@
-# page.flash.notice "Asset bucket has been cleared."
 page[:bucket].replace_html ''

@@ -3,25 +3,11 @@
     </span><%= link_to_remote('Clear Bucket', {:url => clear_bucket_url}, :id => 'clear-bucket') %></h4>
   <div id="bucket">
   <% session[:bucket].each do |filename, values| -%>
-    <% info = values[1] 
-      asset = Asset.find(info[:id]) -%>
-    <div id="asset_<%= asset.id %>">
-      <%= link_to image_tag(*values), asset.image_url %>
-      <div class="image_info" style="display: none">
-        <p><%= asset.title  %></p>
-        <p><%= asset.image_url(:normal)  %></p>
-        <p><%= asset.image_url(:thumbnail)  %></p>
-        <p><%= link_to "edit", asset_edit_url(asset)  %></p>
-      </div>
-    </div>
+    <% info = values[1]; asset = Asset.find(info[:id]) -%>
+    <%= render :partial => "admin/asset/bucket_asset", :locals => { :asset => asset, :values => values } %>
     <%#= draggable_element(domId, :ghosting => 'true', :revert => 'true') %>
   <% end unless session[:bucket].blank? %>
   </div>
   <p style="clear:both;"></p>
 </div>
 
-<script type="text/javascript">
-// <![CDATA[
-  new Bucket('bucket');
-// ]]>
-</script>
