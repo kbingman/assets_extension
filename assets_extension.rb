@@ -30,6 +30,13 @@ class AssetsExtension < Radiant::Extension
     UserActionObserver.send :include, ObserveAssets
     Admin::PageController.send :include, AssetsInterface
     
+    # Default sizes for the images. Other sizes can be added in the Config table using 
+    # "assets.foo" = "[width]x[height]". You can also use RMagick flags for cropping. 
+    
+    Radiant::Config["assets.icon"] = '42x42!'
+    Radiant::Config["assets.thumbnail"] = '150x150'
+    Radiant::Config["assets.normal"] = '480x480'
+    
     admin.tabs.add "Assets", "/admin/assets", :after => "Pages", :visibility => [:all]
   end
   

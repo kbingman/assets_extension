@@ -6,7 +6,7 @@
     <% info = values[1] 
       asset = Asset.find(info[:id]) -%>
     <div id="asset_<%= asset.id %>">
-      <a href='<%= "/images/#{asset.id}/normal/#{asset.basename}.#{asset.extension}" %>'><%= image_tag(*values) %></a>
+      <%= link_to image_tag(*values), asset.image_url %>
       <div class="image_info" style="display: none">
         <p><%= asset.title  %></p>
         <p><%= asset.image_url(:normal)  %></p>
