@@ -4,10 +4,10 @@
   <div id="bucket">
   <% session[:bucket].each do |filename, values| -%>
     <% info = values[1] 
-      domId = info[:id] -%>
-    <div id="asset_<%= info[:id] %>">
-      <a href="<%= url_for(*values) %>"><%= image_tag(*values) %></a>
-
+      asset = Asset.find(info[:id]) -%>
+    <div id="asset_<%= asset.id %>">
+      <a href='<%= "/images/#{asset.id}/normal/#{asset.basename}.#{asset.extension}" %>'><%= image_tag(*values) %></a>
+      <p><%= asset.title  %></p>
     </div>
     <%#= draggable_element(domId, :ghosting => 'true', :revert => 'true') %>
   <% end unless session[:bucket].blank? %>

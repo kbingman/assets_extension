@@ -20,7 +20,7 @@
       <label for="layout_content" class="asset"><%= "Filename: "[:asset] %><%= @asset.filename unless @asset.new_record? %></label>
       <% unless @asset.new_record? -%>      
       <div class="asset"> 
-        <%= image_tag image_url(@asset, 'huge') %>
+        <%= image_tag @asset.image_url(:huge) %>
       </div>
       <% end -%>
       <%= file_field "asset", "uploaded_data", :class => "", :style => "width: 100%" %>

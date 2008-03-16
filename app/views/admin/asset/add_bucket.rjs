@@ -1,2 +1,2 @@
 # page.flash.notice "#{@asset.title} added to bucket."
-page.insert_html :bottom, :bucket, "<div>#{link_to image_tag(image_url(@asset, 'thumbnail')), image_url(@asset)}</div>"
+page.insert_html :bottom, :bucket, "<div>#{link_to image_tag(@asset.image_url(:thumbnail)), @asset.image_url(:normal)}</div>"

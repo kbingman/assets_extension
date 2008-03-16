@@ -453,7 +453,7 @@ module Technoweenie # :nodoc:
 
         # Removes the thumbnails for the attachment, if it has any
         def destroy_thumbnails
-          self.thumbnails.each { |thumbnail| thumbnail.destroy } if thumbnailable?
+        #  self.thumbnails.each { |thumbnail| thumbnail.destroy } if thumbnailable?
         end
     end
   end

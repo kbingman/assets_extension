@@ -2,10 +2,11 @@ class Asset < ActiveRecord::Base
   
   order_by 'title'
   
-  has_attachment :storage => :db_file, :max_size => 2.megabytes,
+  has_attachment :content_type => :image,
+                 :storage => :db_file, :max_size => 2.megabytes,
                  :processor => :rmagick,
-                 :resize_to => '800x800'
-                 # :thumbnails => { :thumbnail => '100x100', :icon => '42x42!' }
+                 :resize_to => '800x800',
+                 :thumbnails => {}
   validates_as_attachment
   
   belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by'
@@ -17,17 +18,17 @@ class Asset < ActiveRecord::Base
     true
   end
 
-  # Hacked image method to get the image from the database. Need to rewrite this so that it is a bit more elegant.
+  # Hacked image method to get the image from the database. This seems to be a leftover
   def image_data(thumbnail = nil)
-    if thumbnail.nil?
-      current_data
-    else
-      thumbnails.find_by_thumbnail(thumbnail.to_s).current_data
-    end
+    thumbnail.nil? ? current_data : thumbnails.find_by_thumbnail(thumbnail.to_s).current_data
   end
   
   def full_filename
     filename
+  end
+  
+  def image_url(size = :original)
+    %{/images/#{self.id}/#{size}/#{self.filename}}
   end
   
   def basename

@@ -3,7 +3,6 @@
     <tr>
       <th class="asset">Image</th>
       <th class="asset-title">Title</th>
-      <th class="tags">Tags</th>
       <th class="modify" colspan="2">Modify</th>
     </tr>
   </thead>
@@ -13,7 +12,7 @@
     <tr class="node level-1">
       <td class="asset">
         <% asset_id = 'asset_' + asset.id.to_s -%>
-        <a class="icon" href="<%= asset_edit_url(:id => asset) %>"><%= image_tag image_url(asset, 'icon'), :title => asset.filename %></a>
+        <a class="icon" href="<%= asset_edit_url(:id => asset) %>"><%= image_tag asset.image_url(:icon), :title => asset.filename %></a>
       </td>
       <td class="asset-title">
         <%= link_to asset.title, asset_edit_url(:id => asset) %>&nbsp;<span class="info"><%= asset.caption %></span>

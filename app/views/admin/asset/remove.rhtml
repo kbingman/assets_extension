@@ -11,7 +11,7 @@
   <tbody>
     <tr class="node level-1" onmouseover="Element.addClassName(this, 'highlight');" onmouseout="Element.removeClassName(this, 'highlight');">
       <td class="asset layout">
-        <%= image_tag image_url(@asset, 'thumbnail'), :title => @asset.filename %>
+        <%= image_tag @asset.image_url(:thumbnail), :title => @asset.filename %>
         <%= @asset.title %>
       </td>
     </tr>

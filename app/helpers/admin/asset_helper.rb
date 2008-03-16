@@ -1,8 +1,6 @@
 module Admin::AssetHelper
   
-  def image_url(asset, size='normal')
-    images_show_url(:id => asset.id, :size => size, :filename => asset.basename, :ext => asset.extension)
-  end
+  
   
   def tag_listing(asset)
     # asset.metatags.collect{|t| t.name}.join(", ")

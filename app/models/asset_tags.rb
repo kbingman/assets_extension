@@ -26,11 +26,11 @@ module AssetTags
     raise TagError, "'name' attribute required" unless name = options.delete('name') or tag.locals.asset
     asset = tag.locals.asset || Asset.find_by_filename(tag.attr['name'])
     size = options.delete('size') || 'normal'
-    path = filepath(asset, size)
+    # path = asset.image_url(size)
     alt = "alt='#{asset.title}'" unless tag.attr['alt']
     attributes = options.inject('') { |s, (k, v)| s << %{#{k.downcase}="#{v}" } }.strip
     attributes << alt unless alt.nil?
-    %{<img src="#{filepath(asset, size)}" #{attributes unless attributes.empty?} />}
+    %{<img src="#{asset.image_url(size)}" #{attributes unless attributes.empty?} />}
   end
   
   desc %{
@@ -43,7 +43,7 @@ module AssetTags
     raise TagError, "'name' attribute required" unless name = options.delete('name') or tag.locals.asset
     asset = tag.locals.asset || Asset.find_by_filename(tag.attr['name'])
     size = options.delete('size') || 'normal'
-    filepath(asset, size)
+    asset.image_url(size)
   end
   
   [:filename, :title, :caption, :content_type, :size, :width, :height, :id].each do |key|
@@ -58,11 +58,5 @@ module AssetTags
       asset.attributes["#{key}"]
     end
   end
-  
-  private
-  
-    def filepath(asset, size)
-      filepath = "/images/#{asset.id}/#{size}/#{asset.basename}.#{asset.extension}"
-    end
   
 end

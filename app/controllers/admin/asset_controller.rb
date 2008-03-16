@@ -7,7 +7,7 @@ class Admin::AssetController < ApplicationController
   
   def index
     term = params['search'].downcase + '%' if params['search']
-    condition = [ 'LOWER(title) LIKE ? or LOWER(caption) LIKE ?', '%' + term, term  ] if term
+    condition = [ 'LOWER(title) LIKE ? or LOWER(caption) LIKE ?', '%' + term, '%' + term  ] if term
 
     @mark_term = params['search']
     @tag = params['tag']
@@ -111,9 +111,9 @@ class Admin::AssetController < ApplicationController
         @asset.title = @asset.basename if @asset.title.blank?
         if @asset.save
           clear_model_cache(url(@asset, nil))
-          @asset.thumbnails.each do |thumbnail|
-            clear_model_cache(url(@asset, thumbnail.thumbnail.to_s))
-          end
+          # @asset.thumbnails.each do |thumbnail|
+          #  clear_model_cache(url(@asset, thumbnail.thumbnail.to_s))
+          # end
           announce_saved
           redirect_to continue_url(options)
           return false
