@@ -24,7 +24,8 @@ module AssetTags
   }    
   tag 'asset:each' do |tag|
     result = []
-    tag.locals.page.assets ? assets = tag.locals.page.assets : assets = Asset.find(:all)
+    all = tag.attr['all']
+    all == 'true' ? assets = Asset.find(:all) : assets = tag.locals.page.assets
     assets.each do |asset|
       tag.locals.asset = asset
       result << tag.expand
@@ -83,7 +84,7 @@ module AssetTags
     attributes = " #{attributes}" unless attributes.empty?
     text = tag.double? ? tag.expand : tag.render('title')
     url = asset.image_url(size)
-    %{<a href="#{url}#{anchor}"#{attributes}>#{text}</a>}
+    %{<a href="#{url  }#{anchor}"#{attributes}>#{text}</a>}
   end
   
 
