@@ -1,0 +1,18 @@
+#bucket-container
+  %h4 
+    Bucket&nbsp;
+    %span.note Items placed here can be used in your pages, layouts and snippets.
+    = link_to_remote('Clear Bucket', {:url => clear_bucket_url}, :id => 'clear-bucket')
+  #bucket
+    - if session[:bucket]
+      - session[:bucket].each do |filename, values| 
+        - info = values[1]
+        - asset = Asset.find(info[:id]) 
+        = render :partial => "admin/asset/bucket_asset", :locals => { :asset => asset } 
+
+  %p{ :style => "clear:both;" }
+  
+  - if @page
+    = render :partial => "admin/asset/page_assets"
+    %p{ :style => "clear:both;" }
+

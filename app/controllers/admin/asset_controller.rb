@@ -67,6 +67,21 @@ class Admin::AssetController < ApplicationController
     session[:bucket] = nil
   end
   
+  def attach_asset
+    asset = Asset.find(params[:asset])
+    page = Page.find(params[:page])
+    page.assets << asset
+    redirect_to page_edit_url(:id => page)
+  end
+  
+  def remove_asset
+    asset = Asset.find(params[:asset])
+    page = Page.find(params[:page])
+    page.assets.delete(asset)
+    redirect_to page_edit_url(:id => page)
+  end
+    
+  
   protected
   
     def asset_image_args_for(asset, thumbnail = :icon, options = {})

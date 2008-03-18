@@ -1,0 +1,19 @@
+- include_stylesheet 'admin/assets' 
+
+- if @asset.new_record? 
+  %h1= "New Asset"
+- else
+  %h1= "Edit Asset"
+<% end -%>
+
+%form{ :method => "post", :enctype => "multipart/form-data" } 
+  .form-area
+    = render :partial => 'form'
+    = updated_stamp @asset 
+  %p.buttons
+    = save_model_button(@asset) 
+    = save_model_and_continue_editing_button(@asset)
+    or
+    = link_to "Cancel", '/admin/assets/'
+
+//= focus 'asset_title'

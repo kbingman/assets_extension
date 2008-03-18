@@ -1,0 +1,11 @@
+#attachment-container
+  %h4 
+    Attached Assets&nbsp;
+    %span.note Assets associated with this page.
+
+  #bucket
+    - if @page.assets
+      - @page.assets.each do |asset|
+        = render :partial => "admin/asset/bucket_asset", :locals => { :asset => asset } 
+
+  %p{ :style => "clear:both;" }

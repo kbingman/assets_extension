@@ -15,17 +15,16 @@ class AssetDisplayPage < Page
     *Usage:* 
     <pre><code></code></pre>
   }
-  tag 'assets' do |tag|
+  tag 'asset' do |tag|
     id = asset_id.split('/').last
     asset = Asset.find(id)
     tag.locals.asset = asset
     tag.expand
   end
   
-  tag 'tag' do |tag|
-    name = asset_id.split('/').first
-    metatag = Metatag.find_by_name(name)
-    tag.locals.metatag = metatag
+  #
+  tag 'asset:page' do |tag|
+    tag.locals.page = tag.globals.page
     tag.expand
   end
   

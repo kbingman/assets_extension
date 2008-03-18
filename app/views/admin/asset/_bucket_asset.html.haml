@@ -1,13 +1,19 @@
 %div.bucket_asset{ :id => "asset_#{asset.id}" }
   %a{ :href => "#", :onclick => "Effect.toggle('info_#{asset.id}', 'appear', { duration: 0.4 }); return false;" } 
-    = image_tag(*values) 
-  //, :url => '#', :after => "Effect.Appear('info_#{asset.id}',{ duration: 0.6 })"
+    = image_tag(asset.image_url(:thumbnail)) 
+
   .image_info{ :id => "info_#{asset.id}", :style => "display: none" }
     %p
       %strong= asset.title
     %p= link_to "Thumbnail Url", asset.image_url(:thumbnail)
     %p= link_to "Original Url", asset.image_url
     %p= link_to "Edit", asset_edit_url(asset)
+    - if @page and @page.id
+      - if @page.assets.include?(asset)
+        %p= link_to "Remove Image", remove_asset_url(:asset => asset.id, :page => @page.id)
+      - else
+        %p= link_to "Attach Image", attach_asset_url(:asset => asset.id, :page => @page.id)
+      
     %p
       %a{ :href => "#", :onclick => "Effect.Fade('info_#{asset.id}', { duration: 0.4 }); return false; " }
         Close
