@@ -26,6 +26,7 @@ module AssetTags
     result = []
     all = tag.attr['all']
     all == 'true' ? assets = Asset.find(:all) : assets = tag.locals.page.assets
+    tag.locals.assets = assets
     assets.each do |asset|
       tag.locals.asset = asset
       result << tag.expand
@@ -38,6 +39,14 @@ module AssetTags
      all == 'true' ? assets = Asset.find(:all) : assets = tag.locals.page.assets
      if first = assets.first
        tag.locals.asset = first
+       tag.expand
+     end
+   end
+   
+   tag 'asset:if_first' do |tag|
+     assets = tag.locals.assets
+     asset = tag.locals.asset
+     if asset == assets.first
        tag.expand
      end
    end
@@ -63,9 +72,9 @@ module AssetTags
     options = tag.attr.dup
     raise TagError, "'title' attribute required" unless title = options.delete('title') or tag.locals.asset
     asset = tag.locals.asset || Asset.find_by_title(tag.attr['title'])
-    size = options.delete('size') || 'normal'
+    size = options.delete('size') || 'original'
     # path = asset.image_url(size)
-    alt = "alt='#{asset.title}'" unless tag.attr['alt'] rescue nil
+    alt = " alt='#{asset.title}'" unless tag.attr['alt'] rescue nil
     attributes = options.inject('') { |s, (k, v)| s << %{#{k.downcase}="#{v}" } }.strip
     attributes << alt unless alt.nil?
     %{<img src="#{asset.image_url(size)}" #{attributes unless attributes.empty?} />} rescue nil
