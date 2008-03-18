@@ -33,6 +33,15 @@ module AssetTags
     result
   end
   
+  tag 'asset:first' do |tag|
+     all = tag.attr['all']
+     all == 'true' ? assets = Asset.find(:all) : assets = tag.locals.page.assets
+     if first = assets.first
+       tag.locals.asset = first
+       tag.expand
+     end
+   end
+  
   [:filename, :title, :caption, :content_type, :size, :width, :height, :id].each do |method|
     desc %{
       Renders the `#{method.to_s}' attribute of the asset.     
