@@ -1,4 +1,9 @@
 #bucket-container
+  - if @page 
+    = render :partial => "admin/asset/page_assets" unless @page.assets.empty?
+  
+  %p{ :style => "clear:both;" }
+  
   %h4 
     Bucket&nbsp;
     %span.note Items placed here can be used in your pages, layouts and snippets.
@@ -12,7 +17,5 @@
 
   %p{ :style => "clear:both;" }
   
-  - if @page
-    = render :partial => "admin/asset/page_assets"
-    %p{ :style => "clear:both;" }
+
 

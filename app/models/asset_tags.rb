@@ -73,11 +73,11 @@ module AssetTags
     raise TagError, "'title' attribute required" unless title = options.delete('title') or tag.locals.asset
     asset = tag.locals.asset || Asset.find_by_title(tag.attr['title'])
     size = options.delete('size') || 'original'
-    # path = asset.image_url(size)
+    # path = asset.public_filename(size)
     alt = " alt='#{asset.title}'" unless tag.attr['alt'] rescue nil
     attributes = options.inject('') { |s, (k, v)| s << %{#{k.downcase}="#{v}" } }.strip
     attributes << alt unless alt.nil?
-    %{<img src="#{asset.image_url(size)}" #{attributes unless attributes.empty?} />} rescue nil
+    %{<img src="#{asset.public_filename(size)}" #{attributes unless attributes.empty?} />} rescue nil
   end
   
   desc %{
@@ -90,7 +90,7 @@ module AssetTags
     raise TagError, "'title' attribute required" unless title = options.delete('title') or tag.locals.asset
     asset = tag.locals.asset || Asset.find_by_title(tag.attr['title'])
     size = options.delete('size') || 'original'
-    asset.image_url(size)  rescue nil
+    asset.public_filename(size)  rescue nil
   end
   
   tag 'asset:link' do |tag|
@@ -101,7 +101,7 @@ module AssetTags
     attributes = options.inject('') { |s, (k, v)| s << %{#{k.downcase}="#{v}" } }.strip
     attributes = " #{attributes}" unless attributes.empty?
     text = tag.double? ? tag.expand : tag.render('title')
-    url = asset.image_url(size)
+    url = asset.public_filename(size)
     %{<a href="#{url  }#{anchor}"#{attributes}>#{text}</a>}
   end
   

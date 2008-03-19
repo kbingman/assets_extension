@@ -38,7 +38,7 @@ class ImageController < ApplicationController
                   :filename => asset.filename,
                   :type => asset.content_type,
                   :disposition => 'inline')
-        @cache.cache_response(asset.image_url(size_name), response)
+        @cache.cache_response(asset.public_filename(size_name), response)
       rescue
         # can't display an image for any reason at all.
       end

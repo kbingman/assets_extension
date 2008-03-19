@@ -29,7 +29,7 @@ class Asset < ActiveRecord::Base
     filename
   end
   
-  def image_url(size = :original)
+  def public_filename(size = :original)
     %{/images/#{self.id}/#{size}/#{self.filename}}
   end
   
