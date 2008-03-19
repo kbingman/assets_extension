@@ -1,5 +1,3 @@
-require_dependency 'application'
-
 class AssetsExtension < Radiant::Extension
   version "0.4"
   description "Describe your extension here"
@@ -23,7 +21,13 @@ class AssetsExtension < Radiant::Extension
   end
   
   def activate
-  
+    raise "The Shards extension is required and must be loaded first!" unless defined?(Shards)
+    admin.page.index.add :sitemap_head, 'assets_extra_th', :before => "status_column_header"
+    admin.page.index.add :node, 'assets_extra_td', :before => "status_column"
+    admin.page.edit.add :form_bottom, '/admin/asset/bucket', :before => "edit_buttons"
+    
+    require_dependency 'application'
+    
     AssetDisplayPage
     AssetListingPage
     
@@ -32,7 +36,7 @@ class AssetsExtension < Radiant::Extension
       include AssetTags
     }
     UserActionObserver.send :include, ObserveAssets
-    Admin::PageController.send :include, AssetsInterface
+    # Admin::PageController.send :include, AssetsInterface
     
     # Default sizes for the images used in the admin views. Other sizes can be added in the Config table using 
     # "assets.foo" = "[width]x[height]". You can also use RMagick flags for cropping. 
