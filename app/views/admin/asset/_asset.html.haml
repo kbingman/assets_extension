@@ -1,5 +1,5 @@
-%div.bucket_asset{ :id => "asset_#{asset.id}" }
-  %a{ :href => "#", :onclick => "Effect.toggle('info_#{asset.id}', 'appear', { duration: 0.4 }); return false;" } 
+%div.bucket_asset{ :id => "asset_#{asset.id}", :onclick => "Effect.toggle('info_#{asset.id}', 'appear', { duration: 0.4 });" }
+  %a{ :href => asset_edit_url(:id => asset.id), :onclick => "return false;" } 
     = image_tag(asset.public_filename(:thumbnail)) 
 
   .image_info{ :id => "info_#{asset.id}", :style => "display: none" }
@@ -10,9 +10,9 @@
     %p= link_to "Edit", asset_edit_url(asset)
     - if @page and @page.id
       - if @page.assets.include?(asset)
-        %p= link_to "Remove Image", remove_asset_url(:asset => asset.id, :page => @page.id)
+        %p= link_to_remote "Remove Image", :url => remove_asset_url(:asset => asset.id, :page => @page.id), :after => "Effect.Fade('asset_#{asset.id}', { duration: 0.8 })"
       - else
-        %p= link_to "Attach Image", attach_asset_url(:asset => asset.id, :page => @page.id)
+        %p= link_to_remote "Attach Image", :url => attach_asset_url(:asset => asset.id, :page => @page.id)
       
     %p
       %a{ :href => "#", :onclick => "Effect.Fade('info_#{asset.id}', { duration: 0.4 }); return false; " }

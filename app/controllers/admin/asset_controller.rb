@@ -61,24 +61,32 @@ class Admin::AssetController < ApplicationController
     end
     args = asset_image_args_for(@asset, :thumbnail, :id => "#{@asset.id}", :title => "#{@asset.title}" )
     session[:bucket][url(@asset)] = args
+    render :update do |page|
+      page[:bucket].replace_html "#{render :partial => 'bucket'}"
+    end
   end
 
   def clear_bucket
     session[:bucket] = nil
+    render :update do |page|
+      page[:bucket].replace_html ''
+    end
   end
   
   def attach_asset
-    asset = Asset.find(params[:asset])
-    page = Page.find(params[:page])
-    page.assets << asset
-    redirect_to page_edit_url(:id => page)
+    @asset = Asset.find(params[:asset])
+    @page = Page.find(params[:page])
+    @page.assets << @asset
+    render :update do |page|
+      page[:attachments].replace_html "#{render :partial => 'page_assets', :locals => {:page => @page}}"
+    end
   end
   
   def remove_asset
-    asset = Asset.find(params[:asset])
-    page = Page.find(params[:page])
-    page.assets.delete(asset)
-    redirect_to page_edit_url(:id => page)
+    @asset = Asset.find(params[:asset])
+    @page = Page.find(params[:page])
+    @page.assets.delete(@asset)
+    render :nothing => true
   end
     
   

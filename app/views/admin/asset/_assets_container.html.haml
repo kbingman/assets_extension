@@ -1,0 +1,22 @@
+- @stylesheets << 'admin/assets'
+#bucket-container
+  - if @page 
+    #attachment-container
+      %h4 
+        Attached Assets&nbsp;
+        %span.note Assets associated with this page.
+        = link_to('Reorder', "#", :id => 'reorder')
+      #attachments
+        = render :partial => "admin/asset/page_assets" unless @page.assets.empty?
+  
+  %p{ :style => "clear:both;" }
+  
+  %h4 
+    Bucket&nbsp;
+    %span.note Items placed here can be used in your pages, layouts and snippets.
+    = link_to_remote('Clear Bucket', {:url => clear_bucket_url}, :id => 'clear-bucket')
+  
+  = render :partial => "admin/asset/bucket"
+
+
+  %p{ :style => "clear:both;" }
