@@ -1,7 +1,12 @@
-- if @page.assets
-  - @page.asset_associations.sort_by{ |a| a.position }.each do |assoc|
-    = render :partial => "admin/asset/asset", :locals => { :asset => assoc.asset, :id_name => 'attachment' } 
-  // - @page.assets.each do |asset|
-  //  = render :partial => "admin/asset/asset", :locals => { :asset => asset, :id_name => 'attachment' }
+- unless @page.assets.empty?
+  - @page.attachments.each do |a|
+    = render :partial => "admin/asset/asset", :locals => { :asset => a.asset, :id_name => 'attachment' } 
+    
+- else
+  %li
+    %p
+      %em You have no attached assets.
+    
 
-%p{ :style => "clear:both;" }
+
+

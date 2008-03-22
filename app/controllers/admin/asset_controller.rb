@@ -45,9 +45,9 @@ class Admin::AssetController < ApplicationController
   
   def reorder
     params[:attachments].each_with_index do |id,idx| 
-      association = AssetAssociation.find_by_page_id(params[:id], :conditions => ['asset_id = ?', id])
-      association.position = idx+1
-      association.save
+      attachment = Attachment.find_by_page_id(params[:id], :conditions => ['asset_id = ?', id])
+      attachment.position = idx+1
+      attachment.save
     end
     render :nothing => true
   end
@@ -78,7 +78,7 @@ class Admin::AssetController < ApplicationController
   def clear_bucket
     session[:bucket] = nil
     render :update do |page|
-      page[:bucket].replace_html ''
+      page[:bucket].replace_html '<p><em>Your bucket is empty.</em></p>'
     end
   end
   
@@ -91,7 +91,7 @@ class Admin::AssetController < ApplicationController
     end
   end
   
-  def remove_asset
+  def remove_asset    
     @asset = Asset.find(params[:asset])
     @page = Page.find(params[:page])
     @page.assets.delete(@asset)

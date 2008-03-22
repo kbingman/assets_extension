@@ -1,14 +1,19 @@
 - @stylesheets << 'admin/assets'
+- include_javascript 'assets'
+- include_javascript 'dragdrop'
+
 #bucket-container
   - if @page 
     #attachment-container
       %h4 
         Attached Assets&nbsp;
         %span.note Assets associated with this page.
-        %a{ :href => "#", :id => 'reorder', :onclick => "reorder_attachments(#{@page.id}); return false;" } Reorder
-        %a{ :href => "#", :id => 'done', :onclick => "done_reordering(); return false;", :style => 'display:none' } Done reordering
+        %span#reorder
+          %a{ :href => "#", :onclick => "reorder_attachments(#{@page.id}); return false;" } Reorder
+        %span#done{ :style => 'display:none' }
+          %a{ :href => "#", :onclick => "done_reordering(); return false;" } Done reordering
       %ul#attachments
-        = render :partial => "admin/asset/page_assets" unless @page.assets.empty?
+        = render :partial => "admin/asset/page_assets" 
         
   %p{ :style => "clear:both;" }
   

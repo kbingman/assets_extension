@@ -23,8 +23,8 @@ class AssetsExtension < Radiant::Extension
   
   def activate
     raise "The Shards extension is required and must be loaded first!" unless defined?(Shards)
-    admin.page.index.add :sitemap_head, 'assets_extra_th', :before => "status_column_header"
-    admin.page.index.add :node, 'assets_extra_td', :before => "status_column"
+    admin.page.index.add :sitemap_head, 'assets_extra_th', :after => "status_column_header"
+    admin.page.index.add :node, 'assets_extra_td', :after => "status_column"
     admin.page.edit.add :form_bottom, '/admin/asset/assets_container', :before => "edit_buttons"
     
     require_dependency 'application'

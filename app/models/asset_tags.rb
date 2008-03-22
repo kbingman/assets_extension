@@ -26,7 +26,7 @@ module AssetTags
     result = []
     # all = tag.attr['all']
     # all == 'true' ? assets = Asset.find(:all) : assets = tag.locals.page.assets
-    associations = tag.locals.page.asset_associations.sort_by{ |a| a.position }
+    associations = tag.locals.page.attachments.sort_by{ |a| a.position }
     tag.locals.assets = associations
     associations.each do |assoc|
       tag.locals.asset = assoc.asset
@@ -38,7 +38,7 @@ module AssetTags
   tag 'asset:first' do |tag|
      # all = tag.attr['all']
      # all == 'true' ? assets = Asset.find(:all) : 
-     associations = tag.locals.page.asset_associations.sort_by{ |a| a.position }
+     associations = tag.locals.page.attachments.sort_by{ |a| a.position }
      if first = associations.first
        tag.locals.asset = first.asset
        tag.expand

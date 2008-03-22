@@ -1,6 +1,6 @@
-class CreateAssetsPages < ActiveRecord::Migration
+class CreateAttachments < ActiveRecord::Migration
   def self.up
-    create_table :asset_associations do |t|
+    create_table :attachments do |t|
       t.column :asset_id,     :integer
       t.column :page_id,      :integer
       t.columen :position,    :integer
