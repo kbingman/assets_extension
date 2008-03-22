@@ -24,29 +24,31 @@ module AssetTags
   }    
   tag 'asset:each' do |tag|
     result = []
-    all = tag.attr['all']
-    all == 'true' ? assets = Asset.find(:all) : assets = tag.locals.page.assets
-    tag.locals.assets = assets
-    assets.each do |asset|
-      tag.locals.asset = asset
+    # all = tag.attr['all']
+    # all == 'true' ? assets = Asset.find(:all) : assets = tag.locals.page.assets
+    associations = tag.locals.page.asset_associations.sort_by{ |a| a.position }
+    tag.locals.assets = associations
+    associations.each do |assoc|
+      tag.locals.asset = assoc.asset
       result << tag.expand
     end
     result
   end
   
   tag 'asset:first' do |tag|
-     all = tag.attr['all']
-     all == 'true' ? assets = Asset.find(:all) : assets = tag.locals.page.assets
-     if first = assets.first
-       tag.locals.asset = first
+     # all = tag.attr['all']
+     # all == 'true' ? assets = Asset.find(:all) : 
+     associations = tag.locals.page.asset_associations.sort_by{ |a| a.position }
+     if first = associations.first
+       tag.locals.asset = first.asset
        tag.expand
      end
    end
    
    tag 'asset:if_first' do |tag|
-     assets = tag.locals.assets
+     associations = tag.locals.assets
      asset = tag.locals.asset
-     if asset == assets.first
+     if asset == associations.first.asset
        tag.expand
      end
    end

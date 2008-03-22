@@ -5,10 +5,11 @@
       %h4 
         Attached Assets&nbsp;
         %span.note Assets associated with this page.
-        = link_to('Reorder', "#", :id => 'reorder')
-      #attachments
+        %a{ :href => "#", :id => 'reorder', :onclick => "reorder_attachments(#{@page.id}); return false;" } Reorder
+        %a{ :href => "#", :id => 'done', :onclick => "done_reordering(); return false;", :style => 'display:none' } Done reordering
+      %ul#attachments
         = render :partial => "admin/asset/page_assets" unless @page.assets.empty?
-  
+        
   %p{ :style => "clear:both;" }
   
   %h4 
@@ -20,3 +21,5 @@
 
 
   %p{ :style => "clear:both;" }
+  
+

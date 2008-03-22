@@ -5,11 +5,12 @@ class Asset < ActiveRecord::Base
   has_attachment :content_type => :image,
                  :storage => :db_file, :max_size => 2.megabytes,
                  :processor => :rmagick,
-                 :resize_to => '800x800',
+                 :resize_to => '1024x1024',
                  :thumbnails => {}
   validates_as_attachment
   
-  has_and_belongs_to_many :pages
+  has_many :asset_associations
+  has_many :pages, :through => :asset_associations
   
   belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by'
   belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'

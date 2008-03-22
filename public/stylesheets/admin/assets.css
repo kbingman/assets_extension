@@ -130,4 +130,4 @@ p#image-nav a:hover
 #content .form-area div.asset {margin: 2px 0; padding: 10px; background: white; border: 1px solid #cdc295;;}
 #content label.assetname {margin-bottom: -5px;}
 p#asset-name {padding-top: 8px; font-size: 80%;}
-p.info {font-size: 85%;}
+p.info {font-size: 85%; z-index}

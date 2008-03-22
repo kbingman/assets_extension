@@ -10,6 +10,7 @@ class AssetsExtension < Radiant::Extension
       asset.asset_edit    'admin/assets/edit/:id',                  :action => 'edit'
       asset.asset_new     'admin/assets/new',                       :action => 'new'
       asset.asset_remove  'admin/assets/remove/:id',                :action => 'remove'
+      asset.asset_reorder 'admin/assets/reorder/:id',               :action => 'reorder'
       asset.add_bucket    'admin/assets/add_bucket/:id',            :action => 'add_bucket'
       asset.clear_bucket  'admin/assets/clear_bucket/:id',          :action => 'clear_bucket'
       asset.attach_asset  'admin/assets/attach/:asset/page/:page',  :action => 'attach_asset'

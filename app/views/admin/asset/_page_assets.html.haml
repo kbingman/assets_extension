@@ -1,5 +1,7 @@
 - if @page.assets
-  - @page.assets.each do |asset|
-    = render :partial => "admin/asset/asset", :locals => { :asset => asset } 
+  - @page.asset_associations.sort_by{ |a| a.position }.each do |assoc|
+    = render :partial => "admin/asset/asset", :locals => { :asset => assoc.asset, :id_name => 'attachment' } 
+  // - @page.assets.each do |asset|
+  //  = render :partial => "admin/asset/asset", :locals => { :asset => asset, :id_name => 'attachment' }
 
 %p{ :style => "clear:both;" }

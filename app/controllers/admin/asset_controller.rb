@@ -43,6 +43,15 @@ class Admin::AssetController < ApplicationController
     end
   end
   
+  def reorder
+    params[:attachments].each_with_index do |id,idx| 
+      association = AssetAssociation.find_by_page_id(params[:id], :conditions => ['asset_id = ?', id])
+      association.position = idx+1
+      association.save
+    end
+    render :nothing => true
+  end
+  
   def clear_cache
     if request.post?
       @cache.clear
