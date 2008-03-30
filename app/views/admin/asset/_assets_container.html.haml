@@ -20,7 +20,8 @@
   %h4 
     Bucket&nbsp;
     %span.note Items placed here can be used in your pages, layouts and snippets.
-    = link_to_remote('Clear Bucket', {:url => clear_bucket_url}, :id => 'clear-bucket')
+    %span#clear-bucket
+      = link_to_remote('Clear Bucket', {:url => clear_bucket_url} )
   
   = render :partial => "admin/asset/bucket"
 

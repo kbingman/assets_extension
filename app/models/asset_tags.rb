@@ -26,10 +26,10 @@ module AssetTags
     result = []
     # all = tag.attr['all']
     # all == 'true' ? assets = Asset.find(:all) : assets = tag.locals.page.assets
-    associations = tag.locals.page.attachments.sort_by{ |a| a.position }
-    tag.locals.assets = associations
-    associations.each do |assoc|
-      tag.locals.asset = assoc.asset
+    attachments = tag.locals.page.attachments
+    tag.locals.assets = attachments
+    attachments.each do |attachment|
+      tag.locals.asset = attachment.asset
       result << tag.expand
     end
     result
@@ -38,17 +38,17 @@ module AssetTags
   tag 'asset:first' do |tag|
      # all = tag.attr['all']
      # all == 'true' ? assets = Asset.find(:all) : 
-     associations = tag.locals.page.attachments.sort_by{ |a| a.position }
-     if first = associations.first
+     attachmentss = tag.locals.page.attachments
+     if first = attachmentss.first
        tag.locals.asset = first.asset
        tag.expand
      end
    end
    
    tag 'asset:if_first' do |tag|
-     associations = tag.locals.assets
+     attachments = tag.locals.assets
      asset = tag.locals.asset
-     if asset == associations.first.asset
+     if asset == attachments.first.asset
        tag.expand
      end
    end

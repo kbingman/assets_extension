@@ -7,18 +7,23 @@
     = image_tag(asset.public_filename(:thumbnail)) 
 
   .image_info{ :id => info_id, :style => "display: none" }
-    %p
-      %strong= asset.title
-    %p= link_to "Edit", asset_edit_url(asset)
-    %p= link_to "Thumbnail Url", asset.public_filename(:thumbnail)
-    %p= link_to "Original Url", asset.public_filename
-    - if @page and @page.id
-      - if @page.assets.include?(asset)
-        %p= link_to_remote "Remove Image", :url => remove_asset_url(:asset => asset.id, :page => @page.id), |
-          :after => "Effect.Fade('#{dom_id}', { duration: 0.8 })", :complete => "Element.remove('#{dom_id}')" if id_name == 'attachment' |
-      - else
-        %p= link_to_remote "Attach Image", :url => attach_asset_url(:asset => asset.id, :page => @page.id)
+    %h4= asset.title
+    %div.image_links
+      - if @page and @page.id
+        %p
+          %strong
+            - if @page.assets.include?(asset)
+              = link_to_remote "Remove Image", :url => remove_asset_url(:asset => asset.id, :page => @page.id), | 
+                :confirm => "Are you sure you want to remove this asset from the page?", |
+                :after => "Effect.Fade('#{dom_id}', { duration: 0.8 })", :complete => "Element.remove('#{dom_id}')" if id_name == 'attachment' |
+               
+            - else
+              = link_to_remote "Attach Image", :url => attach_asset_url(:asset => asset.id, :page => @page.id)
+          
+      %p= link_to "Edit", asset_edit_url(asset)
+      %p= link_to "Thumbnail Url", asset.public_filename(:thumbnail)
+      %p= link_to "Original Url", asset.public_filename
       
-    %p
+    %div
       %a{ :href => "#", :onclick => "Effect.Fade('#{info_id}', { duration: 0.4 }); return false; " }
         Close
